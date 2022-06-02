@@ -13,16 +13,16 @@ const instance= axios.create({
     }
 });
 
-export const fetchPictures = async (page=1, query='')=>{
+const fetchPicturesAPI = async (page=1, searchQuery='')=>{
     const{data}= await instance.get("/",{
         params:{
             page,
-            query,
+            searchQuery,
         }
     })
     return data.hits;
 }
-
+export default fetchPicturesAPI;
 
 // axios.defaults.baseURL = 'https://pixabay.com/api/';
 
