@@ -4,34 +4,30 @@ import PropTypes from 'prop-types';
 import css from './Modal.module.css';
 const modalRoot = document.querySelector('#modal-root');
 
-function Modal({ largeImageURL, onToggleModal }) {
-    useEffect(() => {
-      const handleKeyDown = e => {
-        if (e.code === 'Escape') {
-          onToggleModal();
-        }
-      };
-      window.addEventListener('keydown', handleKeyDown);
-      return () => {
-        window.removeEventListener('keydown', handleKeyDown);
-      };
-    }, [onToggleModal]);
-  
-   const handleBackdropClick = e => {
-      if (e.currentTarget === e.target) {
-        onToggleModal();
-      }
+const Modal = ({ close, children }) => {
+  useEffect(() => {
+    window.addEventListener('keydown', closeModal);
+
+    return () => {
+      window.removeEventListener('keydown', closeModal);
     };
-    return createPortal(
-            <div className={css.Overlay} onClick={handleBackdropClick}>
-                <div className={css.Modal}><img src={largeImageURL} alt="" /></div>
-            </div>,
-            modalRoot,
-        );
-    
-}
-Modal.propTypes = {
-    onClose: PropTypes.func,
+  });
+  const closeModal = e => {
+    if (e.code === 'Escape' || e.target === e.currentTarget) {
+      close();
+    }
   };
-  
-  export default Modal;
+  return createPortal(
+    <div className={css.Overlay} onClick={closeModal}>
+      <div className={css.Modal}>{children}</div>
+    </div>,
+    modalRoot,
+  );
+};
+
+export default Modal;
+
+Modal.propTypes = {
+  close: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
+};

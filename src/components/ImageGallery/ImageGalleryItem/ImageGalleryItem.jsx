@@ -1,15 +1,13 @@
 
 import PropTypes from 'prop-types';
 
-function ImageGalleryItem({ webformatURL, largeImageURL, tags,  onOpenModal }) {
+function ImageGalleryItem({ url, onClick}) {
     return (
       <li >
         <img
-          src={webformatURL}
-          alt={tags}
-          data-source={largeImageURL}
-          
-          onClick={onOpenModal}
+          src={url}
+          alt=""
+          onClick={onClick}
         />
       </li>
     );
@@ -17,9 +15,7 @@ function ImageGalleryItem({ webformatURL, largeImageURL, tags,  onOpenModal }) {
   
 
 ImageGalleryItem.propTypes = {
-        largeImageURL: PropTypes.string.isRequired,
-        tags: PropTypes.string.isRequired,
-        webformatURL: PropTypes.string.isRequired,
-        onOpenModal: PropTypes.func.isRequired,
+        url: PropTypes.string.isRequired,
+        onClick: PropTypes.func.isRequired,
 };
 export default ImageGalleryItem;

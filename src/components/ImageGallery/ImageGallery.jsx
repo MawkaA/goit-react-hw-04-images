@@ -2,30 +2,37 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import ImageGalleryItem from './ImageGalleryItem/ImageGalleryItem';
 
-export default function ImageGallery({ images, onOpenModal}) {
-    return (
-        <ul className="ImageGallery">
-            {images.map(({ id, webformatURL, largeImageURL, tags }) => (
-        <ImageGalleryItem
-          key={id}
-          webformatURL={webformatURL}
-          largeImageURL={largeImageURL}
-          tags={tags}
-          onOpenModal={onOpenModal}
-        />
-         ))}
-        </ul>
-    );
-}
+const ImageGallery = ({ items, onClick, children }) => {
+  const elements = items.map(i => (
+    <ImageGalleryItem
+      key={i.id}
+      url={i.webformatURL}
+      onClick={() => onClick(i.largeImageURL)}
+    />
+
+  ));
+  console.log(items);
+  return (
+    <>
+      <ul className="ImageGallery">{elements}</ul>;{children}
+    </>
+  );
+};
+
+export default ImageGallery;
+
+ImageGallery.defaultProps = {
+  images: [],
+};
 
 ImageGallery.propTypes = {
-    images:  PropTypes.arrayOf(
-        PropTypes.shape({
-          id: PropTypes.number,
-          webformatURL: PropTypes.string,
-          largeImageURL: PropTypes.string,
-          tags: PropTypes.string,
-        }).isRequired,
-      ).isRequired,
-    onOpenModal: PropTypes.func.isRequired,
+  items: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.number.isRequired,
+      webformatURL: PropTypes.string.isRequired,
+      largeImageURL: PropTypes.string.isRequired,
+    }),
+  ),
+  onClick: PropTypes.func.isRequired,
+  children: PropTypes.node.isRequired,
 };

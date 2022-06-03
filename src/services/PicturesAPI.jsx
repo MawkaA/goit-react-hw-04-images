@@ -13,11 +13,11 @@ const instance= axios.create({
     }
 });
 
-const fetchPicturesAPI = async (page=1, searchQuery='')=>{
+const fetchPicturesAPI = async ( q,page)=>{
     const{data}= await instance.get("/",{
         params:{
+            q,
             page,
-            searchQuery,
         }
     })
     return data.hits;

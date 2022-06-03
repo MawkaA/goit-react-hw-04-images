@@ -1,22 +1,27 @@
 import { useState  } from 'react';
-import { toast } from 'react-toastify';
 
 
-function Searchbar({ onHandleSubmit }) {
+
+function Searchbar({ onSubmit }) {
     const [query, setQuery] = useState('');
   
-    const onSubmit = e => {
+    const handleSubmit= e => {
       e.preventDefault();
       if (query.trim() === '') {
-        return toast.info('😱 Please enter a value for search images!');
+        return alert('Please enter a value for search images!');
       }
-      onHandleSubmit(query);
+      onSubmit(query);
       setQuery('');
     };
+    const handleChange = e => {
+        const { value } = e.target;
+    
+        setQuery(value);
+      };
   
         return (
             <header className="Searchbar">
-                <form className="SearchForm" onSubmit={onSubmit}>
+                <form className="SearchForm" onSubmit={handleSubmit}>
                     <input
                         className="SearchForm-input"
                         type="text"
@@ -24,7 +29,7 @@ function Searchbar({ onHandleSubmit }) {
                         autoComplete="off"
                         autoFocus
                         placeholder="Search image"
-                        onChange={({ target }) => setQuery(target.value)}
+                        onChange={handleChange}
                     />
                     <button type="submit" className="SearchForm-button">
                         <span className="SearchForm-button-label">Search</span>
